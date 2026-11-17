@@ -18,19 +18,22 @@ AI 把一条通知或一个待确认动作交给 ClawMe；卡片出现在用户�
 
 ## 安装
 
-1. 拿到一枚 key（免费档 5 条新动作/天；托管入口 `https://relay.clawme.net`），存进密码管理器。
+1. 申请一枚 key（目前尚无自助开通；托管入口 `https://relay.clawme.net`），存进密码管理器。当前实例每日 5 条新入队动作是重启会清零的软限制。
 2. 设置环境变量：
 
 ```bash
 export CLAWME_BASE_URL=https://relay.clawme.net   # 自建 relay 就换成你的地址
-export CLAWME_TOKEN=<你的 key>
+read -rs -p '请输入 ClawMe key: ' CLAWME_TOKEN; echo
+export CLAWME_TOKEN
 ```
 
 3. 挂 MCP Server（零依赖，Node ≥ 18）：
 
 ```bash
-claude mcp add clawme -- env CLAWME_BASE_URL=https://relay.clawme.net CLAWME_TOKEN=<你的 key> node /path/to/clawme-connector/mcp/clawme-mcp.mjs
+claude mcp add clawme -- node /path/to/clawme-connector/mcp/clawme-mcp.mjs
 ```
+
+MCP 宿主进程需要继承上述环境变量；持久配置按宿主文档设置。不要把真实 key 写入命令行参数或公开配置。
 
 ## 四个工具
 

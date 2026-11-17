@@ -7,21 +7,22 @@ ClawMe 的服务端与 iOS / Chrome / Android 客户端是专有软件；本仓�
 
 ## 一行接入
 
-官方托管 relay（免费档：每租户每天 5 条新动作）：
+官方托管 relay 正在内测；目前需申请凭据，尚无自助开通和付费分档。实例当前限制每租户每天 5 条新入队动作，重启后计数会清零：
 
 ```bash
 export CLAWME_BASE_URL=https://relay.clawme.net
-export CLAWME_TOKEN=<你的 key>
+read -rs -p '请输入 ClawMe key: ' CLAWME_TOKEN; echo
+export CLAWME_TOKEN
 node mcp/clawme-mcp.mjs
 ```
 
 MCP 客户端（Claude Code / Codex / Cursor / DSH）里也可直接挂：
 
 ```bash
-claude mcp add clawme -- env CLAWME_BASE_URL=https://relay.clawme.net CLAWME_TOKEN=<你的 key> node /path/to/clawme-connector/mcp/clawme-mcp.mjs
+claude mcp add clawme -- node /path/to/clawme-connector/mcp/clawme-mcp.mjs
 ```
 
-自建 relay：把 `CLAWME_BASE_URL` 指向你自己的地址即可，协议不变。
+运行 MCP 宿主的环境必须提供上面的两个变量；具体持久配置方式取决于宿主。不要把真实 key 写进命令行参数、公开配置或聊天。连接其他兼容 relay 时，将 `CLAWME_BASE_URL` 指向相应地址。
 
 > `key` 就是账号：没有邮箱、没有找回邮件。丢了 key 等于丢了账号，先存进密码管理器。
 
